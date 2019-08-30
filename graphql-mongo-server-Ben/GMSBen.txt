@@ -1,0 +1,43 @@
+npm init -y
+yarn add -D @babel/preset-env @babel/cli @babel/node @babel/core nodemon
+------------------------------
+package.json file
+"scripts": {
+"start": "nodemon --exec npm run babel-node --src/index.js"
+}
+-------------------------
+index.js
+console.log('Hi');   - To check it out in the console
+-------------------------
+create .babel.rc file
+{
+"presets: ["@babel/preset-env"]
+-------------------
+Go to www.apollograpql.com/docs/apollo-server/essentials/server#intergrations
+
+and copy below code in index.js
+
+import { ApolloServer,gql } from "apollo-server-express";
+import express from 'express';
+import {tyepDefs, resolvers } from "./schema";
+
+const app = express();
+
+const { ApolloServer, gql } = require('apollo-server-express');
+const { typeDefs, resolvers } = require('./schema');
+
+const server = new ApolloServer({
+  // These will be defined for both new or existing servers
+  typeDefs,
+  resolvers,
+});
+
+server.applyMiddleware({ app }); // app is from an existing express app
+
+app.listen({ port: 4000 }, () =>
+  console.log(`?? Server ready at http://localhost:4000${server.graphqlPath}`)
+)
+-----------------------------------------
+
+then install 
+> yarn add apollo-server-express express graphql
